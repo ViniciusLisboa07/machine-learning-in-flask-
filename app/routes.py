@@ -73,7 +73,10 @@ def index():
         selected_classifier = classifier
         
         if classifier == 'random_forest':
-            rf_classifier = RandomForestClassifier()
+            n_estimators = int(request.form.get('n_estimators'))
+            criterion = request.form.get('criterion')
+            
+            rf_classifier = RandomForestClassifier(n_estimators=n_estimators, criterion=criterion)
             rf_classifier.fit(X_train, y_train)
             y_pred_rf = rf_classifier.predict(X_test)
             cm_rf = confusion_matrix(y_test, y_pred_rf).tolist()
@@ -86,7 +89,10 @@ def index():
             f1_score_response = f1_score_rf
             
         elif classifier == 'svm':
-            svm_classifier = SVC()
+            svm_c = float(request.form.get('svm_c'))
+            svm_kernel = request.form.get('svm_kernel')
+            
+            svm_classifier = SVC(C=svm_c, kernel=svm_kernel)
             svm_classifier.fit(X_train, y_train)
             y_pred_svm = svm_classifier.predict(X_test)
             cm_svm = confusion_matrix(y_test, y_pred_svm).tolist()

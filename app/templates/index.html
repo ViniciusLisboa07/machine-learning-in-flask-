@@ -11,25 +11,43 @@
     <div class="container mt-5">
         <h1 class="mb-4">Machine Learning System</h1>
         
-        <!-- Formulário com dropdown para escolher o classificador -->
         <form method="post" action="{{ url_for('index') }}">
             <div class="form-group">
                 <label for="classifier">Selecione o Classificador:</label>
-                <select class="form-control" name="classifier" id="classifier" onchange="this.form.submit()">
+                <select class="form-control" name="classifier" id="classifier">
                     <option value="random_forest" {% if selected_classifier == 'random_forest' %}selected{% endif %}>Random Forest</option>
                     <option value="svm" {% if selected_classifier == 'svm' %}selected{% endif %}>SVM</option>
-                    <!-- Adicione mais opções conforme necessário -->
+                    <option value="knn" {% if selected_classifier == 'knn' %}selected{% endif %}>KNN</option>
+                    <option value="mlp" {% if selected_classifier == 'mlp' %}selected{% endif %}>MLP</option>
                 </select>
             </div>
 
-            {{ render_classifier_parameters(selected_classifier) }}
+            <div id="random_forest_parameters" {% if selected_classifier != 'random_forest' %}style="display: none;"{% endif %}>
+                {{ render_classifier_parameters('random_forest') }}
+            </div>
+
+            <div id="svm_parameters" {% if selected_classifier != 'svm' %}style="display: none;"{% endif %}>
+                {{ render_classifier_parameters('svm') }}
+            </div>
+    
 
             <hr>
             <button type="submit" class="btn btn-primary">Executar Treinamento e Teste</button>
         </form>
 
+        <hr>
+
+        {% if matriz %}
+            <h3>Matriz de Confusão</h3>
+            <img id="confusionMatrix" src="data:image/png;base64, {{ matriz }}" alt="Matriz de Confusão" class="img-fluid">
+        {% endif %}
+
         {% if accuracy %}
             <p class="mt-3">Desempenho do Modelo: {{ accuracy }}</p>
+        {% endif %}
+
+        {% if f1_score_response %}
+            <p class="mt-3">F1 Score: {{ f1_score_response }}</p>
         {% endif %}
     </div>
 

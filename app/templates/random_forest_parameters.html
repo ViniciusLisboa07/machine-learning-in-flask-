@@ -1,4 +1,10 @@
 <div class="form-group">
-  <label for="parameter1_rf">Parâmetro 1 para Random Forest:</label>
-  <input type="text" class="form-control" name="parameter1_rf" id="parameter1_rf">
+    <label for="n_estimators">Número de Árvores (n_estimators):</label>
+    <input type="text" class="form-control" name="n_estimators" id="n_estimators">
+    
+    <label for="criterion">Critério (criterion):</label>
+    <select name="criterion"  class="form-control" id="criterion">
+        <option value="gini">Gini</option>
+        <option value="entropy">Entropia</option>
+    </select>
 </div>
