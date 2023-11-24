@@ -3,19 +3,39 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-    <title>Machine Learning</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <title>Machine Learning System</title>
 </head>
 <body>
-    <h1>Machine Learning </h1>
-    <form method="post" action="/">
-        <!-- Adicione campos do formulário para selecionar classificador, ajustar parâmetros, etc. -->
-        <button type="submit">Executar Treinamento e Teste</button>
-    </form>
-    {% if accuracy %}
-        <p>Desempenho do Modelo: {{ accuracy }}</p>
-    {% endif %}
+    <div class="container mt-5">
+        <h1 class="mb-4">Machine Learning System</h1>
+        
+        <!-- Formulário com dropdown para escolher o classificador -->
+        <form method="post" action="{{ url_for('index') }}">
+            <div class="form-group">
+                <label for="classifier">Selecione o Classificador:</label>
+                <select class="form-control" name="classifier" id="classifier" onchange="this.form.submit()">
+                    <option value="random_forest" {% if selected_classifier == 'random_forest' %}selected{% endif %}>Random Forest</option>
+                    <option value="svm" {% if selected_classifier == 'svm' %}selected{% endif %}>SVM</option>
+                    <!-- Adicione mais opções conforme necessário -->
+                </select>
+            </div>
+
+            {{ render_classifier_parameters(selected_classifier) }}
+
+            <hr>
+            <button type="submit" class="btn btn-primary">Executar Treinamento e Teste</button>
+        </form>
+
+        {% if accuracy %}
+            <p class="mt-3">Desempenho do Modelo: {{ accuracy }}</p>
+        {% endif %}
+    </div>
+
+    <!-- Adicione o script do Bootstrap (opcional se você não precisar de componentes JS) -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 </body>
 </html>
